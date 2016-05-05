@@ -1,0 +1,47 @@
+@font-face {
+    font-family: "Punchout";
+    src: url(../images/punch-out!!_nes.ttf) format("truetype");
+}
+
+body {
+	font-family: "Punchout", Verdana, Tahoma;
+	color: #FFFFFF;
+	background: #000000;
+	margin-bottom: 60px;
+}
+
+h1 {
+	font-size: 64px;
+	margin-top: -20px;
+	color: #FC9838;
+}
+
+span {
+	font-size: 96px;
+}
+
+h4 {
+	color: #3DC0FF;
+}
+
+.heading {
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
+.copy {
+	color: #FC9838;
+	margin: 0;
+	padding-left: 700px;
+}
+
+.green {
+	color: #4DE249;
+}
+
+.footer {
+	position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+}
