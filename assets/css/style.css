@@ -16,8 +16,8 @@ h1 {
 	color: #FC9838;
 }
 
-span {
-	font-size: 96px;
+p {
+	font-size: 18px;
 }
 
 h4 {
@@ -48,7 +48,7 @@ h4 {
 }
 
 .newgame {
-	margin-bottom: 30px;
+	margin-bottom: 15px;
 }
 
 li {
@@ -60,18 +60,26 @@ li img {
 	width: 40px;
 }
 
+#game {
+	margin-bottom: 30px;
+}
+
 #game li {
-	width: 17px;
-	font-size: 18px;
-	margin: 7px;
+	width: 40px;
+	font-size: 46px;
+	margin: 8px;
 	border-bottom: 2px solid white;
+}
+
+#stats p {
+	margin-bottom: 30px;
 }
 
 .footer {
 	position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 30px;
+	bottom: 0;
+	width: 100%;
+	height: 30px;
 }
 
 .footer a:hover {
