@@ -1,8 +1,9 @@
 var game = {
-	names: ['Glass Joe', 'Little Mac', 'Von Kaiser', 'Piston Honda', 'Don Flamenco', 'King Hippo', 'Great Tiger', 'Mike Tyson'],
+	names: ['Glass Joe', 'Little Mac', 'Von Kaiser', 'Piston Honda', 'Don Flamenco', 'Soda Popinski', 'Mr Sandman', 'King Hippo', 'Great Tiger', 'Mike Tyson'],
 	guesses: 12,
 	wins: 0,
 	losses: 0,
+	correct: [],
 	attempts: [],
 	gameOver: false,
 
@@ -27,6 +28,11 @@ var game = {
 		sound.play();
 	},
 
+	winSound: function() {
+		var sound = new Audio('http://www.vgmpf.com/Wiki/images/9/97/07_-_Mike_Tyson%27s_Punch-Out%21%21_-_NES_-_You_Won.ogg');
+		sound.play();
+	},
+
 	pickName: function() {
 		return this.names[Math.floor(Math.random()*this.names.length)];
 	},
@@ -34,7 +40,9 @@ var game = {
 
 }
 
+var sound = new Audio('http://www.vgmpf.com/Wiki/images/2/2d/05_-_Mike_Tyson%27s_Punch-Out%21%21_-_NES_-_Boxing.ogg');
 game.newGameSound();
+setTimeout(function(){sound.play();}, 4000);
 
 var gameName = game.pickName();
 var arrGameName = gameName.split("");
@@ -68,11 +76,33 @@ document.onkeyup = function(event) {
 			if(lowGameName.indexOf(key) > -1) {
 				game.hitSound();
 				game.attempts.push(key);
+				game.correct.push(key);
 				var index = lowGameName.indexOf(key);
 				document.getElementById(index).innerHTML = key;
 				if(lowGameName.indexOf(key, index + 1) > -1) {
 					var otherIndex = lowGameName.indexOf(key, index + 1);
+					game.correct.push(key);
 					document.getElementById(otherIndex).innerHTML = key;
+				}
+				console.log(lowGameName.length);
+				console.log(game.correct.length);
+				if(lowGameName.length-1 === game.correct.length) {
+					console.log('working');
+					sound.pause();
+					sound.currentTime = 0;
+					game.winSound();
+					game.wins++;
+					game.guesses = 12;
+					game.attempts = [];
+					game.correct = [];
+					setTimeout(function(){document.getElementById('game').innerHTML = "";}, 500);
+					gameName = game.pickName();
+					arrGameName = gameName.split("");
+					lowGameName = gameName.toLowerCase();
+					setTimeout(function(){createBoard();}, 500);
+					setTimeout(function(){alert('YOU WON!!!!'); }, 500);
+					setTimeout(function(){sound.play();}, 2000);
+
 				}
 				console.log(index);
 			} else {
@@ -85,10 +115,15 @@ document.onkeyup = function(event) {
 		}
 	}
 	if(game.guesses === 0) {
+		sound.pause();
+		sound.currentTime = 0;
 		game.defeatSound();
+		setTimeout(function(){alert('YOU LOST :('); }, 500);
+		setTimeout(function(){sound.play();}, 3000);
 		game.losses++;
 		game.guesses = 12;
 		game.attempts = [];
+		game.correct = [];
 		document.getElementById('game').innerHTML = "";
 		gameName = game.pickName();
 		arrGameName = gameName.split("");
