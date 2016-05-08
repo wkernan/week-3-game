@@ -4,9 +4,20 @@ var game = {
 	wins: 0,
 	loses: 0,
 	attempts: [],
+	gameOver: false,
 
 	newGameSound: function() {
 		var sound = new Audio('http://www.vgmpf.com/Wiki/images/b/b3/04_-_Mike_Tyson%27s_Punch-Out%21%21_-_NES_-_Round_Start.ogg');
+		sound.play();
+	},
+
+	hitSound: function() {
+		var sound = new Audio('assets/images/hit.mp3');
+		sound.play();
+	},
+
+	missSound: function() {
+		var sound = new Audio('assets/images/miss.mp3');
 		sound.play();
 	},
 
@@ -42,7 +53,7 @@ for(i=0; i<arrGameName.length; i++) {
 }
 
 function findLetters() {
-	
+
 }
 
 console.log(gameName);
@@ -52,11 +63,13 @@ document.onkeyup = function(event) {
 
 	if(event.keyCode > 64 && event.keyCode < 91) {
 		if(lowGameName.indexOf(key) > -1) {
+			game.hitSound();
 			var index = lowGameName.indexOf(key);
 			game.attempts.push(key);
 			console.log(index);
 			document.getElementById(index).innerHTML = key;
 		} else {
+			game.missSound();
 			game.attempts.push(key);
 			game.guesses--;
 		}
