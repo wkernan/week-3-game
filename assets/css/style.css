@@ -28,9 +28,9 @@ h4 {
 	margin-top: 20px;
 }
 
-.heading img {
-	height: 12%;
-	width: 12%;
+.heading li img {
+	height: 120px;
+	width: 120px;
 }
 
 #hangman {

@@ -1,6 +1,5 @@
 var game = {
-	names: ['Glass Joe', 'Little Mac', 'Von Kaiser', 'Piston Honda', 'Don Flamenco', 'Soda Popinski', 'Mr Sandman', 'King Hippo', 'Great Tiger', 'Mike Tyson'],
-	pics: ['assets/images/glass.png', 'assets/images/mac.png', 'assets/images/von.png', 'assets/images/piston.png', 'assets/images/don.png', 'assets/images/soda.png', 'assets/images/sandman.png', 'assets/images/hippo.png', 'assets/images/tiger.png', 'assets/images/mike.png'];
+	names: [['Glass Joe', 'assets/images/glass.png'], ['Little Mac', 'assets/images/mac.png'], ['Von Kaiser', 'assets/images/von.png'], ['Piston Honda', 'assets/images/piston.png'], ['Don Flamenco', 'assets/images/don.png'], ['Soda Popinski', 'assets/images/soda.png'], ['Mr Sandman', 'assets/images/sandman.png'], ['King Hippo', 'assets/images/hippo.png'], ['Great Tiger', 'assets/images/tiger.png'], ['Mike Tyson', 'assets/images/mike.png']],
 	guesses: 12,
 	wins: 0,
 	losses: 0,
@@ -35,7 +34,7 @@ var game = {
 	},
 
 	pickName: function() {
-		return this.names[Math.floor(Math.random()*this.names.length)];
+		return [Math.floor(Math.random()*this.names.length)];
 	},
 
 
@@ -45,7 +44,9 @@ var sound = new Audio('http://www.vgmpf.com/Wiki/images/2/2d/05_-_Mike_Tyson%27s
 game.newGameSound();
 setTimeout(function(){sound.play();}, 4000);
 
-var gameName = game.pickName();
+var fighter = game.pickName();
+var gameName = game.names[fighter][0];
+var picture = game.names[fighter][1];
 var arrGameName = gameName.split("");
 var lowGameName = gameName.toLowerCase();
 console.log(arrGameName);
@@ -62,9 +63,6 @@ function createBoard() {
 	}
 }
 
-function findLetters(str) {
-
-}
 
 createBoard();
 console.log(gameName);
@@ -89,20 +87,24 @@ document.onkeyup = function(event) {
 				console.log(game.correct.length);
 				if(lowGameName.length-1 === game.correct.length) {
 					console.log('working');
+					document.getElementById('you').innerHTML = "YOU";
+					document.getElementById('win-lose').innerHTML = "WIN!!";
 					sound.pause();
 					sound.currentTime = 0;
 					game.winSound();
+					document.getElementById('win-img').src = picture;
 					game.wins++;
 					game.guesses = 12;
 					game.attempts = [];
 					game.correct = [];
-					setTimeout(function(){document.getElementById('game').innerHTML = "";}, 500);
-					gameName = game.pickName();
+					setTimeout(function(){document.getElementById('game').innerHTML = "";}, 1000);
+					fighter = game.pickName();
+					gameName = game.names[fighter][0];
+					picture = game.names[fighter][1];
 					arrGameName = gameName.split("");
 					lowGameName = gameName.toLowerCase();
-					setTimeout(function(){createBoard();}, 500);
-					setTimeout(function(){alert('YOU WON!!!!'); }, 500);
-					setTimeout(function(){sound.play();}, 1000);
+					setTimeout(function(){createBoard();}, 1000);
+					setTimeout(function(){sound.play();}, 5000);
 
 				}
 				console.log(index);
@@ -119,17 +121,20 @@ document.onkeyup = function(event) {
 		sound.pause();
 		sound.currentTime = 0;
 		game.defeatSound();
-		setTimeout(function(){alert('YOU LOST :('); }, 500);
-		setTimeout(function(){sound.play();}, 1000);
+		document.getElementById('you').innerHTML = "YOU";
+		document.getElementById('win-lose').innerHTML = "LOSE";
+		setTimeout(function(){sound.play();}, 6000);
 		game.losses++;
 		game.guesses = 12;
 		game.attempts = [];
 		game.correct = [];
 		document.getElementById('game').innerHTML = "";
-		gameName = game.pickName();
+		fighter = game.pickName();
+		gameName = game.names[fighter][0];
+		picture = game.names[fighter][1];
 		arrGameName = gameName.split("");
 		lowGameName = gameName.toLowerCase();
-		createBoard();
+		setTimeout(function(){createBoard();}, 1000);
 		console.log(gameName);
 	}
 	var html = '<p>Turns Left: ' + game.guesses + '</p>' + 
