@@ -40,18 +40,18 @@ var game = {
 
 }
 
-var sound = new Audio('http://www.vgmpf.com/Wiki/images/2/2d/05_-_Mike_Tyson%27s_Punch-Out%21%21_-_NES_-_Boxing.ogg');
-game.newGameSound();
-setTimeout(function(){sound.play();}, 4000);
+var sound = new Audio('http://www.vgmpf.com/Wiki/images/2/2d/05_-_Mike_Tyson%27s_Punch-Out%21%21_-_NES_-_Boxing.ogg'); 
+game.newGameSound(); //start music on load up
+setTimeout(function(){sound.play();}, 4000);// wait 4s and then play the background theme
 
-var fighter = game.pickName();
-var gameName = game.names[fighter][0];
-var picture = game.names[fighter][1];
-var arrGameName = gameName.split("");
-var lowGameName = gameName.toLowerCase();
+var fighter = game.pickName();//pick an index from fighter.length
+var gameName = game.names[fighter][0];//pick fighter name given index
+var picture = game.names[fighter][1];//pick fighter picture given index
+var arrGameName = gameName.split("");//split fighter name into array
+var lowGameName = gameName.toLowerCase();//make all letters in fighter name lowercase
 console.log(arrGameName);
 
-function createBoard() {
+function createBoard() {//create game board function, based on name chosen
 	for(i=0; i<arrGameName.length; i++) {
 		if(arrGameName[i] === " ") {
 			letterList = "<li style='border-bottom:none;margin:0 15px 0 15px' id='" + i + "'>" + arrGameName[i] + "</li>";
@@ -64,51 +64,51 @@ function createBoard() {
 }
 
 
-createBoard();
+createBoard();//create game board
 console.log(gameName);
 
-document.onkeyup = function(event) {
-	var key = String.fromCharCode(event.keyCode).toLowerCase();
+document.onkeyup = function(event) {//on keyup function
+	var key = String.fromCharCode(event.keyCode).toLowerCase();//turn event of key into lowercase
 
-	if(event.keyCode > 64 && event.keyCode < 91) {
-		if(game.attempts.indexOf(key) === -1) {
-			if(lowGameName.indexOf(key) > -1) {
+	if(event.keyCode > 64 && event.keyCode < 91) {//check for only letter keys
+		if(game.attempts.indexOf(key) === -1) {//if attempts array does not contain letter chosen then continue
+			if(lowGameName.indexOf(key) > -1) {//if letter chosen is part of fighter name continue
 				game.hitSound();
-				game.attempts.push(key);
-				game.correct.push(key);
-				var index = lowGameName.indexOf(key);
-				document.getElementById(index).innerHTML = key;
-				if(lowGameName.indexOf(key, index + 1) > -1) {
-					var otherIndex = lowGameName.indexOf(key, index + 1);
-					game.correct.push(key);
-					document.getElementById(otherIndex).innerHTML = key;
+				game.attempts.push(key);//push letter into attempts array
+				game.correct.push(key);//push letter into correct letters array
+				var index = lowGameName.indexOf(key);//check for double letters by setting index equal to place where first letter appeared
+				document.getElementById(index).innerHTML = key;//add letter in html using id
+				if(lowGameName.indexOf(key, index + 1) > -1) {//check for same letter in fighter name. Since all fighter names only have 2 max of same letter just do once.
+					var otherIndex = lowGameName.indexOf(key, index + 1);//find other index of same letter
+					game.correct.push(key);//also add same letter to correct since I'm using .length to check for a win
+					document.getElementById(otherIndex).innerHTML = key;//add same letter in html using id
 				}
 				console.log(lowGameName.length);
 				console.log(game.correct.length);
-				if(lowGameName.length-1 === game.correct.length) {
+				if(lowGameName.length-1 === game.correct.length) {//check for win. Since each name only has 1 space check lowGameName.length agains correct.length-1
 					console.log('working');
 					document.getElementById('you').innerHTML = "YOU";
-					document.getElementById('win-lose').innerHTML = "WIN!!";
-					sound.pause();
-					sound.currentTime = 0;
-					game.winSound();
-					document.getElementById('win-img').src = picture;
-					game.wins++;
-					game.guesses = 12;
-					game.attempts = [];
-					game.correct = [];
-					setTimeout(function(){document.getElementById('game').innerHTML = "";}, 1000);
-					fighter = game.pickName();
+					document.getElementById('win-lose').innerHTML = "WIN!!";//tell user they won html
+					sound.pause();//pause theme music
+					sound.currentTime = 0;//set time back to 0
+					game.winSound();//play win music
+					document.getElementById('win-img').src = picture;//change picture to fighter 
+					game.wins++;//increment wins by 1
+					game.guesses = 12;//reset guesses
+					game.attempts = [];//reset attempts array
+					game.correct = [];//reset correct array
+					setTimeout(function(){document.getElementById('game').innerHTML = "";}, 1000);//wait 1s and clear board html
+					fighter = game.pickName();//pick new random fighter
 					gameName = game.names[fighter][0];
 					picture = game.names[fighter][1];
 					arrGameName = gameName.split("");
 					lowGameName = gameName.toLowerCase();
-					setTimeout(function(){createBoard();}, 1000);
-					setTimeout(function(){sound.play();}, 5000);
+					setTimeout(function(){createBoard();}, 2000);//recreate board
+					setTimeout(function(){sound.play();}, 5000);//restart theme music
 
 				}
 				console.log(index);
-			} else {
+			} else {                           //if user picks wrong letter, run this
 				game.missSound();
 				game.attempts.push(key);
 				game.guesses--;
@@ -117,7 +117,7 @@ document.onkeyup = function(event) {
 			console.log(game.attempts);
 		}
 	}
-	if(game.guesses === 0) {
+	if(game.guesses === 0) {//if user runs out of guesses
 		sound.pause();
 		sound.currentTime = 0;
 		game.defeatSound();
@@ -134,7 +134,7 @@ document.onkeyup = function(event) {
 		picture = game.names[fighter][1];
 		arrGameName = gameName.split("");
 		lowGameName = gameName.toLowerCase();
-		setTimeout(function(){createBoard();}, 1000);
+		setTimeout(function(){createBoard();}, 2000);
 		console.log(gameName);
 	}
 	var html = '<p>Turns Left: ' + game.guesses + '</p>' + 
