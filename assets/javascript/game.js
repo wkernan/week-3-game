@@ -1,5 +1,6 @@
 var game = {
 	names: ['Glass Joe', 'Little Mac', 'Von Kaiser', 'Piston Honda', 'Don Flamenco', 'Soda Popinski', 'Mr Sandman', 'King Hippo', 'Great Tiger', 'Mike Tyson'],
+	pics: ['assets/images/glass.png', 'assets/images/mac.png', 'assets/images/von.png', 'assets/images/piston.png', 'assets/images/don.png', 'assets/images/soda.png', 'assets/images/sandman.png', 'assets/images/hippo.png', 'assets/images/tiger.png', 'assets/images/mike.png'];
 	guesses: 12,
 	wins: 0,
 	losses: 0,
@@ -101,7 +102,7 @@ document.onkeyup = function(event) {
 					lowGameName = gameName.toLowerCase();
 					setTimeout(function(){createBoard();}, 500);
 					setTimeout(function(){alert('YOU WON!!!!'); }, 500);
-					setTimeout(function(){sound.play();}, 2000);
+					setTimeout(function(){sound.play();}, 1000);
 
 				}
 				console.log(index);
@@ -119,7 +120,7 @@ document.onkeyup = function(event) {
 		sound.currentTime = 0;
 		game.defeatSound();
 		setTimeout(function(){alert('YOU LOST :('); }, 500);
-		setTimeout(function(){sound.play();}, 3000);
+		setTimeout(function(){sound.play();}, 1000);
 		game.losses++;
 		game.guesses = 12;
 		game.attempts = [];
@@ -132,7 +133,7 @@ document.onkeyup = function(event) {
 		console.log(gameName);
 	}
 	var html = '<p>Turns Left: ' + game.guesses + '</p>' + 
-	'<p>Guesses: ' + game.attempts.join(',') + '</p>' + 
+	'<p>Guessed Letters: ' + game.attempts.join(',') + '</p>' + 
 	'<p>Wins: ' + game.wins + '</p>' + 
 	'<p>Losses: ' + game.losses + '</p>';
 
