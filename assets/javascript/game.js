@@ -49,7 +49,6 @@ var gameName = game.names[fighter][0];//pick fighter name given index
 var picture = game.names[fighter][1];//pick fighter picture given index
 var arrGameName = gameName.split("");//split fighter name into array
 var lowGameName = gameName.toLowerCase();//make all letters in fighter name lowercase
-console.log(arrGameName);
 
 function createBoard() {//create game board function, based on name chosen
 	for(i=0; i<arrGameName.length; i++) {
@@ -65,7 +64,6 @@ function createBoard() {//create game board function, based on name chosen
 
 
 createBoard();//create game board
-console.log(gameName);
 
 document.onkeyup = function(event) {//on keyup function
 	var key = String.fromCharCode(event.keyCode).toLowerCase();//turn event of key into lowercase
@@ -83,8 +81,6 @@ document.onkeyup = function(event) {//on keyup function
 					game.correct.push(key);//also add same letter to correct since I'm using .length to check for a win
 					document.getElementById(otherIndex).innerHTML = key;//add same letter in html using id
 				}
-				console.log(lowGameName.length);
-				console.log(game.correct.length);
 				if(lowGameName.length-1 === game.correct.length) {//check for win. Since each name only has 1 space check lowGameName.length agains correct.length-1
 					console.log('working');
 					document.getElementById('you').innerHTML = "YOU";
@@ -97,24 +93,21 @@ document.onkeyup = function(event) {//on keyup function
 					game.guesses = 12;//reset guesses
 					game.attempts = [];//reset attempts array
 					game.correct = [];//reset correct array
-					setTimeout(function(){document.getElementById('game').innerHTML = "";}, 1000);//wait 1s and clear board html
+					setTimeout(function(){document.getElementById('game').innerHTML = "";}, 3000);//wait 1s and clear board html
 					fighter = game.pickName();//pick new random fighter
 					gameName = game.names[fighter][0];
 					picture = game.names[fighter][1];
 					arrGameName = gameName.split("");
 					lowGameName = gameName.toLowerCase();
-					setTimeout(function(){createBoard();}, 2000);//recreate board
+					setTimeout(function(){createBoard();}, 4000);//recreate board
 					setTimeout(function(){sound.play();}, 5000);//restart theme music
 
 				}
-				console.log(index);
 			} else {                           //if user picks wrong letter, run this
 				game.missSound();
 				game.attempts.push(key);
 				game.guesses--;
 			}
-			console.log(game.guesses);
-			console.log(game.attempts);
 		}
 	}
 	if(game.guesses === 0) {//if user runs out of guesses
@@ -135,7 +128,6 @@ document.onkeyup = function(event) {//on keyup function
 		arrGameName = gameName.split("");
 		lowGameName = gameName.toLowerCase();
 		setTimeout(function(){createBoard();}, 2000);
-		console.log(gameName);
 	}
 	var html = '<p>Turns Left: ' + game.guesses + '</p>' + 
 	'<p>Guessed Letters: ' + game.attempts.join(',') + '</p>' + 
