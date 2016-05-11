@@ -14,12 +14,12 @@ var game = {
 	},
 
 	hitSound: function() {
-		var sound = new Audio('assets/images/hit.mp3');
+		var sound = new Audio('assets/sounds/hit.wav');
 		sound.play();
 	},
 
 	missSound: function() {
-		var sound = new Audio('assets/images/miss.mp3');
+		var sound = new Audio('assets/sounds/miss.wav');
 		sound.play();
 	},
 
@@ -40,6 +40,7 @@ var game = {
 
 }
 
+var fightSound = new Audio('assets/sounds/fight.wav');
 var sound = new Audio('http://www.vgmpf.com/Wiki/images/2/2d/05_-_Mike_Tyson%27s_Punch-Out%21%21_-_NES_-_Boxing.ogg'); 
 game.newGameSound(); //start music on load up
 //setTimeout(function(){sound.play();}, 4000);// wait 4s and then play the background theme
@@ -69,9 +70,12 @@ document.onkeyup = function(event) {//on keyup function
 
 	if(event.keyCode > 64 && event.keyCode < 91) {//check for only letter keys
 		if(sound.currentTime === 0) {//start theme music on first click
-			sound.play();
+			setTimeout(function(){sound.play();}, 1000);
 		} else if(sound.ended === true) {//check if theme music has ended, if so play again
 			sound.play();
+		}
+		if(fightSound.currentTime === 0) {
+			fightSound.play();
 		}
 		if(game.attempts.indexOf(key) === -1) {//if attempts array does not contain letter chosen then continue
 			if(lowGameName.indexOf(key) > -1) {//if letter chosen is part of fighter name continue
@@ -90,6 +94,7 @@ document.onkeyup = function(event) {//on keyup function
 					document.getElementById('win-lose').innerHTML = "WIN!!";//tell user they won html
 					sound.pause();//pause theme music
 					sound.currentTime = 0;//set time back to 0
+					fightSound.currentTine = 0;
 					game.winSound();//play win music
 					document.getElementById('win-img').src = picture;//change picture to fighter 
 					game.wins++;//increment wins by 1
@@ -116,6 +121,7 @@ document.onkeyup = function(event) {//on keyup function
 	if(game.guesses === 0) {//if user runs out of guesses, loses
 		sound.pause();//stop theme music
 		sound.currentTime = 0;//reset theme music
+		fightSound.currentTime = 0;
 		game.defeatSound();//play defeat sound
 		document.getElementById('you').innerHTML = "YOU";//display they lose
 		document.getElementById('win-lose').innerHTML = "LOSE";
@@ -130,7 +136,7 @@ document.onkeyup = function(event) {//on keyup function
 		picture = game.names[fighter][1];//pic of fighter
 		arrGameName = gameName.split("");//make array
 		lowGameName = gameName.toLowerCase();//lowercase the array
-		setTimeout(function(){createBoard();}, 2000);//make board after 2s
+		setTimeout(function(){createBoard();}, 5000);//make board after 2s
 	}
 	var html = '<p>Turns Left: ' + game.guesses + '</p>' +       //html to display once user clicks and updates with clicks
 	'<p>Guessed Letters: ' + game.attempts.join(',') + '</p>' + 
