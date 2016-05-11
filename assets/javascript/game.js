@@ -52,10 +52,10 @@ var lowGameName = gameName.toLowerCase();//make all letters in fighter name lowe
 
 function createBoard() {//create game board function, based on name chosen
 	for(i=0; i<arrGameName.length; i++) {
-		if(arrGameName[i] === " ") {
-			letterList = "<li style='border-bottom:none;margin:0 15px 0 15px' id='" + i + "'>" + arrGameName[i] + "</li>";
+		if(arrGameName[i] === " ") {//check if there is a blank space in array, if so run statement
+			letterList = "<li style='border-bottom:none;margin:0 15px 0 15px' id='" + i + "'>" + arrGameName[i] + "</li>";//add <li> and class for blank space with id=i
 			document.getElementById('game').innerHTML += letterList; 
-		} else {
+		} else {//if not black space add <li> with id=i
 			letterList = "<li id='" + i + "'></li>";
 			document.getElementById('game').innerHTML += letterList;
 		}
