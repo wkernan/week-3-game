@@ -42,7 +42,7 @@ var game = {
 
 var sound = new Audio('http://www.vgmpf.com/Wiki/images/2/2d/05_-_Mike_Tyson%27s_Punch-Out%21%21_-_NES_-_Boxing.ogg'); 
 game.newGameSound(); //start music on load up
-setTimeout(function(){sound.play();}, 4000);// wait 4s and then play the background theme
+//setTimeout(function(){sound.play();}, 4000);// wait 4s and then play the background theme
 
 var fighter = game.pickName();//pick an index from fighter.length
 var gameName = game.names[fighter][0];//pick fighter name given index
@@ -69,6 +69,11 @@ document.onkeyup = function(event) {//on keyup function
 	var key = String.fromCharCode(event.keyCode).toLowerCase();//turn event of key into lowercase
 
 	if(event.keyCode > 64 && event.keyCode < 91) {//check for only letter keys
+		if(sound.currentTime === 0) {//start theme music on first click
+			sound.play();
+		} else if(sound.ended === true) {//check if theme music has ended, if so play again
+			sound.play();
+		}
 		if(game.attempts.indexOf(key) === -1) {//if attempts array does not contain letter chosen then continue
 			if(lowGameName.indexOf(key) > -1) {//if letter chosen is part of fighter name continue
 				game.hitSound();
@@ -82,7 +87,6 @@ document.onkeyup = function(event) {//on keyup function
 					document.getElementById(otherIndex).innerHTML = key;//add same letter in html using id
 				}
 				if(lowGameName.length-1 === game.correct.length) {//check for win. Since each name only has 1 space check lowGameName.length agains correct.length-1
-					console.log('working');
 					document.getElementById('you').innerHTML = "YOU";
 					document.getElementById('win-lose').innerHTML = "WIN!!";//tell user they won html
 					sound.pause();//pause theme music
@@ -100,36 +104,36 @@ document.onkeyup = function(event) {//on keyup function
 					arrGameName = gameName.split("");
 					lowGameName = gameName.toLowerCase();
 					setTimeout(function(){createBoard();}, 4000);//recreate board
-					setTimeout(function(){sound.play();}, 5000);//restart theme music
+					//setTimeout(function(){sound.play();}, 5000);//restart theme music
 
 				}
 			} else {                           //if user picks wrong letter, run this
-				game.missSound();
-				game.attempts.push(key);
-				game.guesses--;
+				game.missSound();              //play miss sound
+				game.attempts.push(key);       //add missed letter to attempts array
+				game.guesses--;                //increment guesses down 1
 			}
 		}
 	}
-	if(game.guesses === 0) {//if user runs out of guesses
-		sound.pause();
-		sound.currentTime = 0;
-		game.defeatSound();
-		document.getElementById('you').innerHTML = "YOU";
+	if(game.guesses === 0) {//if user runs out of guesses, loses
+		sound.pause();//stop theme music
+		sound.currentTime = 0;//reset theme music
+		game.defeatSound();//play defeat sound
+		document.getElementById('you').innerHTML = "YOU";//display they lose
 		document.getElementById('win-lose').innerHTML = "LOSE";
-		setTimeout(function(){sound.play();}, 6000);
-		game.losses++;
-		game.guesses = 12;
-		game.attempts = [];
-		game.correct = [];
-		document.getElementById('game').innerHTML = "";
-		fighter = game.pickName();
-		gameName = game.names[fighter][0];
-		picture = game.names[fighter][1];
-		arrGameName = gameName.split("");
-		lowGameName = gameName.toLowerCase();
-		setTimeout(function(){createBoard();}, 2000);
+		//setTimeout(function(){sound.play();}, 6000);
+		game.losses++;//increment loses up 1
+		game.guesses = 12;//reset guesses
+		game.attempts = [];//reset attempt array
+		game.correct = [];//reset correct array
+		document.getElementById('game').innerHTML = "";//clear html of #game
+		fighter = game.pickName();//choose fighter index
+		gameName = game.names[fighter][0];//name of fighter
+		picture = game.names[fighter][1];//pic of fighter
+		arrGameName = gameName.split("");//make array
+		lowGameName = gameName.toLowerCase();//lowercase the array
+		setTimeout(function(){createBoard();}, 2000);//make board after 2s
 	}
-	var html = '<p>Turns Left: ' + game.guesses + '</p>' + 
+	var html = '<p>Turns Left: ' + game.guesses + '</p>' +       //html to display once user clicks and updates with clicks
 	'<p>Guessed Letters: ' + game.attempts.join(',') + '</p>' + 
 	'<p>Wins: ' + game.wins + '</p>' + 
 	'<p>Losses: ' + game.losses + '</p>';
