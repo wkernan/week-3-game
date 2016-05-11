@@ -62,7 +62,6 @@ function createBoard() {//create game board function, based on name chosen
 	}
 }
 
-
 createBoard();//create game board
 
 document.onkeyup = function(event) {//on keyup function
