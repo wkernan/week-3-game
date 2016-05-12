@@ -94,7 +94,7 @@ document.onkeyup = function(event) {//on keyup function
 					document.getElementById('win-lose').innerHTML = "WIN!!";//tell user they won html
 					sound.pause();//pause theme music
 					sound.currentTime = 0;//set time back to 0
-					fightSound.currentTine = 0;
+					fightSound.currentTime = 0;
 					game.winSound();//play win music
 					document.getElementById('win-img').src = picture;//change picture to fighter 
 					game.wins++;//increment wins by 1
